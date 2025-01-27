@@ -1,0 +1,53 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+  }
+
+  .greeting {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .greeting .date {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .header_right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .create_btn {
+    background: #1147F1;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .search input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    width: 250px;
+  }
+
+  .avatar {
+    background: #FFD700;
+    color: #000;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+  }
