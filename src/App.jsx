@@ -1,4 +1,4 @@
-import {Login, Register, Dashboard} from './pages'
+import {Login, Register, Dashboard, Redirect} from './pages'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import {Toaster} from 'react-hot-toast'
@@ -15,6 +15,7 @@ function App() {
           {/* <Route path="/links" element={<Sidebar />} />
           <Route path="/analytics" element={<Sidebar />} />
           <Route path="/settings" element={<Sidebar />} /> */}
+          <Route path="/:shortId" element={<Redirect />} />
         </Routes>      
       </BrowserRouter>
       <Toaster />

@@ -1,28 +1,68 @@
 import React, { useState } from "react"
 import { X, Calendar } from "lucide-react"
-import { Switch } from "@/components/ui/switch"
-import { Button } from "@/components/ui/button"
+import Switch from '@mui/material/Switch'
 import styles from "./Modal.module.css"
+import toast from 'react-hot-toast'
+import {createUrl} from "../../services/url"
+import {TailSpin} from 'react-loader-spinner';
 
-export default function Modal() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [hasExpiry, setHasExpiry] = useState(false)
 
-  const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
+export default function Modal({isOpen, setIsOpen}) {
+  const [shortUrl, setShortUrl] = useState("");
+  const [hasExpiry, setHasExpiry] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    redirectUrl: "",
+    remarks: "",
+    expiration: "",
+  });
 
-  const handleSubmit = (e) => {
+  const closeModal = () => setIsOpen(false);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     // Handle form submission
-    closeModal()
+    try {      
+      setIsLoading(true);
+      const response = await createUrl(formData);
+      console.log(response);
+
+      if(response.shortId){
+        let url = import.meta.env.VITE_FRONTEND_URL + "/" + response.shortId;
+        setShortUrl(url);
+        console.log(url);
+        toast.success("Link created successfully");
+        closeModal();
+        return;
+      }
+      
+      toast.error(response.message);
+      
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong")
+    }
+    finally{
+      setIsLoading(false);
+      setFormData({
+        redirectUrl: "",
+        remarks: "",
+        expiration: "",
+      })
+    }
+    
   }
 
   if (!isOpen) {
-    return (
-      <Button onClick={openModal} className="fixed top-4 right-4">
-        New Link
-      </Button>
-    )
+    return null
   }
 
   return (
@@ -41,36 +81,70 @@ export default function Modal() {
             <label>
               Destination Url <span className={styles.required}>*</span>
             </label>
-            <input type="url" placeholder="https://web.whatsapp.com/" required className={styles.input} />
+            <input 
+                type="url" 
+                name="redirectUrl"
+                placeholder="https://web.whatsapp.com/" 
+                required 
+                className={styles.input} 
+                value={formData.redirectUrl}
+                onChange={handleChange}
+            />
           </div>
 
           <div className={styles.form_group}>
             <label>
               Remarks <span className={styles.required}>*</span>
             </label>
-            <textarea placeholder="Add remarks" required className={styles.input} rows={4} />
+            <textarea 
+                placeholder="Add remarks" 
+                name="remarks"
+                required 
+                className={styles.input} rows={4} 
+                value={formData.remarks}
+                onChange={handleChange}
+            />
           </div>
 
           <div className={`${styles.form_group} ${styles.expiry_group}`}>
             <div className={styles.expiry_header}>
               <label>Link Expiration</label>
-              <Switch checked={hasExpiry} onCheckedChange={setHasExpiry} />
+              <Switch defaultChecked={hasExpiry} onChange={()=>setHasExpiry((prev)=>!prev)} />
             </div>
 
             { 
               hasExpiry && (
               <div className={styles.date_input}>
-                <input type={styles.datetime_local} className={styles.input} />
-                <Calendar className={styles.calendar_icon} />
+                <input 
+                    type="datetime-local" 
+                    name="expiration"
+                    className={styles.input} 
+                    value={formData.expiration}
+                    onChange={handleChange}
+                />            
               </div>
             )}
           </div>
 
           <div className={styles.modal_footer}>
-            <Button type="button" variant="outline" onClick={closeModal}>
+            <button type="button" variant="outline" onClick={closeModal}>
               Clear
-            </Button>
-            <Button type="submit">Create new</Button>
+            </button>
+            <button type="submit" disabled={isLoading}>
+             { !isLoading ?"Create new"
+              :
+              <TailSpin
+                  visible={isLoading}
+                  height="20"
+                  width="20"
+                  color="#ffffff"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+              />
+             }
+            </button>
           </div>
         </form>
       </div>

@@ -26,6 +26,8 @@
     align-items: center;
     padding: 16px 20px;
     border-bottom: 1px solid #eee;
+    background-color: rgba(52, 52, 70, 1);
+    color: white;
   }
   
   .modal_header h2 {
@@ -47,13 +49,14 @@
   }
   
   .form_group {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   
   .form_group label {
     display: block;
     margin-bottom: 8px;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     color: #333;
   }
   
@@ -102,9 +105,26 @@
   
   .modal_footer {
     display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 32px;
+    justify-content:space-between;
+    /* background-color: rgba(59, 60, 81, 0.176); */
+    margin-top: 22px;
+  }
+
+  .modal_footer button{
+    background-color: none;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .modal_footer button[type="submit"] {
+    background: #1147F1;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
   }
   
   @keyframes fadeIn {
