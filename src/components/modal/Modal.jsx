@@ -1,16 +1,18 @@
 import React, { useState } from "react"
-import { X, Calendar } from "lucide-react"
+import { X, Calendar, Heading1 } from "lucide-react"
 import Switch from '@mui/material/Switch'
 import styles from "./Modal.module.css"
 import toast from 'react-hot-toast'
 import {createUrl} from "../../services/url"
-import {TailSpin} from 'react-loader-spinner';
+import {TailSpin} from 'react-loader-spinner'
+import Copyurl from "../copyurl/Copyurl"
 
 
 export default function Modal({isOpen, setIsOpen}) {
   const [shortUrl, setShortUrl] = useState("");
   const [hasExpiry, setHasExpiry] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     redirectUrl: "",
     remarks: "",
@@ -40,8 +42,9 @@ export default function Modal({isOpen, setIsOpen}) {
         setShortUrl(url);
         console.log(url);
         toast.success("Link created successfully");
-        closeModal();
-        return;
+        setIsSubmitted(true);
+
+        return;         
       }
       
       toast.error(response.message);
@@ -65,7 +68,12 @@ export default function Modal({isOpen, setIsOpen}) {
     return null
   }
 
+  if(isSubmitted){
+    return <Copyurl shortUrl={shortUrl} setIsSubmitted={setIsSubmitted}/>
+  }
+
   return (
+
     <>
       <div className={styles.modal_overlay} onClick={closeModal} />
       <div className={styles.modal}>
