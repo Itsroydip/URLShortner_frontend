@@ -15,6 +15,49 @@ const createUrl = async (data) => {
     throw new Error("Something went wrong");   
 }
 
+const fetchUrls = async () => {
+    const response = await fetch(`${BACKEND_URL}/api/url/`,{
+        headers: {
+            'authorization': localStorage.getItem("token")
+        }
+    })
+
+    if(response.status === 200)
+        return response.json();
+    throw new Error("Something went wrong");   
+}
+
+const editUrl = async (id, data) => {
+    const response = await fetch(`${BACKEND_URL}/api/url/${id}`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+    })
+
+    if(response.status === 200 || response.status === 400)
+        return response.json();
+    throw new Error("Something went wrong");   
+}
+
+const deleteUrl = async (id) => {
+    const response = await fetch(`${BACKEND_URL}/api/url/${id}`,{
+        method: 'DELETE',
+        headers: {
+            'authorization': localStorage.getItem("token")
+        }
+    })
+
+    if(response.status === 200 || response.status === 400)
+        return response.json();
+    throw new Error("Something went wrong");   
+}
+
 export {
-    createUrl
+    createUrl,
+    fetchUrls,
+    editUrl,
+    deleteUrl
 }
