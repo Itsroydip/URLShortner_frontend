@@ -15,11 +15,13 @@ const createUrl = async (data) => {
     throw new Error("Something went wrong");   
 }
 
-const fetchUrls = async () => {
-    const response = await fetch(`${BACKEND_URL}/api/url/`,{
+const fetchUrls = async (page, pageSize) => {
+    
+    const response = await fetch(`${BACKEND_URL}/api/url/?page=${page}&pageSize=${pageSize}`,{
         headers: {
             'authorization': localStorage.getItem("token")
-        }
+        },
+    
     })
 
     if(response.status === 200)

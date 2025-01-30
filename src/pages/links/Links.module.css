@@ -170,6 +170,11 @@
   }
 
   .pagination {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+right: 0;
+margin: auto;
     display: flex;
     justify-content: center;
     gap: 0.5rem;
@@ -177,18 +182,22 @@
   }
 
   .pagination button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2rem;
     height: 2rem;
-    border: 1px solid #ddd;
+    border: 1.5px solid #ddd;
     background: white;
     border-radius: 4px;
     cursor: pointer;
+    color: #000000;
+    font-weight: 600;
   }
 
   .pagination button.active {
-    background: #2563eb;
-    color: white;
-    border-color: #2563eb;
+    color: #0941b9;
+    border-color: #0941b9;
   }
 
   .pagination button:disabled {

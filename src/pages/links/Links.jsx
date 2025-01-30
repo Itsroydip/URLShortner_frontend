@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import styles from './Links.module.css'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Header from '../../components/header/Header'
@@ -15,12 +15,16 @@ const Links = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [content, setContent] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 4;
+  const [totalCount, setTotalCount] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchUrls();
-        setUrls(data);
+        const data = await fetchUrls(currentPage,pageSize);
+        setUrls(data.data);
+        setTotalCount(data.totalCount);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -29,7 +33,7 @@ const Links = () => {
 
     fetchData();
 
-  }, [isEditing]);
+  }, [isEditing, currentPage]);
 
   const handleCopy = (url) =>{ 
     navigator.clipboard.writeText(import.meta.env.VITE_FRONTEND_URL + "/" + url.shortId);
@@ -47,6 +51,17 @@ const Links = () => {
     setContent(url);
     setIsDeleting(true);
   }
+
+  //Pagination Logic
+  const totalPages = Math.ceil(totalCount/pageSize);
+  const pageNumbers = useMemo(() => {
+    let numbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      numbers.push(i)
+    }
+    return numbers
+  }, [totalCount]);
+
 
 
   return (
@@ -148,16 +163,30 @@ const Links = () => {
                   </table>
               </div>
 
-                <div className="pagination">
-                  <button disabled>←</button>
-                  <button className="active">1</button>
-                  <button>2</button>
-                  <button>-</button>
-                  <button>9</button>
-                  <button>10</button>
-                  <button>→</button>
-                </div>          
-  
+              {/* pagination start from here */}
+              <div className={styles.pagination}>
+                <button 
+                  onClick={()=>setCurrentPage((prev)=>--prev)}
+                  disabled = {currentPage===1}
+                >←</button>
+                
+                    {
+                      pageNumbers.map((num)=>(
+                        <button 
+                        className={num===currentPage ? `${styles.active}` : ""}
+                        key={num}
+                        >
+                          {num}
+                        </button>
+                      ))
+
+                    }
+               
+                <button
+                  onClick={()=>setCurrentPage((prev)=>++prev)}
+                  disabled = {currentPage===totalPages}
+                >→</button>
+              </div>          
               
           </main>
           
