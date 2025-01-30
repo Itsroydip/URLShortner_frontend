@@ -164,6 +164,9 @@ const Links = () => {
               </div>
 
               {/* pagination start from here */}
+
+              { totalCount &&
+              
               <div className={styles.pagination}>
                 <button 
                   onClick={()=>setCurrentPage((prev)=>--prev)}
@@ -186,7 +189,8 @@ const Links = () => {
                   onClick={()=>setCurrentPage((prev)=>++prev)}
                   disabled = {currentPage===totalPages}
                 >→</button>
-              </div>          
+              </div>  
+              }        
               
           </main>
           
