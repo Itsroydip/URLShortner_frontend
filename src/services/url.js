@@ -16,7 +16,7 @@ const createUrl = async (data) => {
 }
 
 const fetchUrls = async (page, pageSize) => {
-    
+
     const response = await fetch(`${BACKEND_URL}/api/url/?page=${page}&pageSize=${pageSize}`,{
         headers: {
             'authorization': localStorage.getItem("token")
@@ -57,9 +57,23 @@ const deleteUrl = async (id) => {
     throw new Error("Something went wrong");   
 }
 
+const analyticsData = async () => {
+    const response = await fetch(`${BACKEND_URL}/api/url/analytics`,{
+        headers: {
+            'authorization': localStorage.getItem("token")
+        },
+    
+    })
+
+    if(response.status === 200)
+        return response.json();
+    throw new Error("Something went wrong");  
+}
+
 export {
     createUrl,
     fetchUrls,
     editUrl,
-    deleteUrl
+    deleteUrl,
+    analyticsData
 }
