@@ -29,8 +29,53 @@ const login = async (data) => {
     throw new Error("Something went wrong");   
 }
 
+const editUser = async (data) => {
+    const response = await fetch(`${BACKEND_URL}/api/user`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+    })
+
+    if(response.status === 200 || response.status === 400)
+        return response.json();
+    throw new Error("Something went wrong");
+
+}
+
+const deleteUser = async (id) => {
+    const response = await fetch(`${BACKEND_URL}/api/user/${id}`,{
+        method: 'DELETE',
+        headers: {
+            'authorization': localStorage.getItem("token")
+        }
+    })
+
+    if(response.status === 200 || response.status === 400)
+        return response.json();
+    throw new Error("Something went wrong"); 
+}
+
+const fetchUser = async ()=> {
+    const response = await fetch(`${BACKEND_URL}/api/user/`,{
+        headers: {
+            'authorization': localStorage.getItem("token")
+        },
+    
+    })
+
+    if(response.status === 200 || response.status === 400)
+        return response.json();
+    throw new Error("Something went wrong");
+}
+
 
 export{
     register,
-    login
+    login,
+    editUser,
+    deleteUser,
+    fetchUser
 }

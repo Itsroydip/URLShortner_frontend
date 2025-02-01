@@ -3,6 +3,7 @@ import Register from "./register/Register";
 import Dashboard from "./dashboard/Dashboard";
 import Links from "./links/Links";
 import Analytics from "./analytics/Analytics";
+import Settings from "./settings/Settings"
 
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -20,5 +21,6 @@ export{
     Dashboard,
     Redirect,
     Links,
-    Analytics
+    Analytics,
+    Settings
 }
