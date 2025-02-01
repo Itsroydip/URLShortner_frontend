@@ -58,6 +58,7 @@ const Settings = () => {
       
             if(response.message){
               toast.success(response.message);
+              localStorage.setItem("username", userData.name);
             }      
             else
             toast('Email already exists', {

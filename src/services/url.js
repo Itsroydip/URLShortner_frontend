@@ -70,10 +70,40 @@ const analyticsData = async () => {
     throw new Error("Something went wrong");  
 }
 
+const getDateWiseClicks = async () => {
+    const response = await fetch(`${BACKEND_URL}/api/url/clicks`,{
+        headers: {
+            'authorization': localStorage.getItem("token")
+        },
+    
+    })
+
+    if(response.status === 200)
+        return response.json();
+    throw new Error("Something went wrong");  
+}
+
+const getDeviceInfo = async () => {
+    const response = await fetch(`${BACKEND_URL}/api/url/devices`,{
+        headers: {
+            'authorization': localStorage.getItem("token")
+        },
+    
+    })
+
+    if(response.status === 200)
+        return response.json();
+    throw new Error("Something went wrong");  
+}
+
+
+
 export {
     createUrl,
     fetchUrls,
     editUrl,
     deleteUrl,
-    analyticsData
+    analyticsData,
+    getDateWiseClicks,
+    getDeviceInfo
 }
